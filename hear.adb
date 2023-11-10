@@ -80,8 +80,6 @@ procedure hear is
 
    begin
         if command = '.' then
-            Put_Line("Link Command");
-
             -- Check if towers exists, and add if need be
             if not (Graph.In_Master_List(Tower_One)) then
                 Graph.Add_To_Master_List(Tower_One);
@@ -91,9 +89,10 @@ procedure hear is
                 Graph.Add_To_Master_List(Tower_Two);
             end if;
 
-            -- Code to link the two
             Graph.Link_Nodes (Tower_One, Tower_Two);
-
+            
+        elsif command = '#' then
+            Graph.Delete_Link(Tower_One, Tower_Two);
         end if;
 
    end Execute_Command;

@@ -32,6 +32,8 @@ Package Graph is
 
     procedure Link_Nodes (Node_One : Unbounded_String; Node_Two : Unbounded_String);
 
+    procedure Delete_Link (Node_One : Unbounded_String; Node_Two : Unbounded_String);
+
     procedure Print_Links_Of_Node (Node : Node_Pointer);
 
 End Graph;

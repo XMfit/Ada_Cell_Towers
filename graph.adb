@@ -9,35 +9,29 @@ package body graph is
 
     -- See if a node exists in master list
     function In_Master_List (Node_Item_Name : Unbounded_String) return Boolean is
-        -- Cursor!!!
-        Cursor_Pos : Cursor := First(Master_List);
         Node_Item : Node_Pointer;        -- Pointer to nodes in master list
         Element_Found : Boolean := false;
     begin
         -- While cursor is on an element
-        while Cursor_Pos /= No_Element loop
-            Node_Item := Element(Cursor_Pos);      -- Store elem in Node_Item
+        for C in Master_List.Iterate loop
+            Node_Item := Element(C);               -- Store elem in Node_Item
             if Node_Item.ID = Node_Item_Name then  -- Check if Node_item.ID matches
                 Element_Found := true;             -- If yes exit return true
-                exit;       -- leave loop
+                exit;                              -- leave loop
             end if;
-            Next(Cursor_Pos);                      -- Iterate
         end loop;
         return Element_Found;
     end In_Master_List;
 
     -- Gets node from master list
     function Get_From_Master_List (Node_Item_Name : Unbounded_String) return Node_Pointer is
-        -- Cursor!!
-        Cursor_Pos : Cursor := First(Master_List);
         Node_Item : Node_Pointer := Null;
     begin
-        while Cursor_Pos /= No_Element loop
-            Node_Item := Element(Cursor_Pos);
+        for C in Master_List.Iterate loop
+            Node_Item := Element(C);
             if Node_Item.ID = Node_Item_Name then
                 return Node_Item;
             end if;
-            Next(Cursor_Pos);
         end loop;
         return Node_Item;
     end Get_From_Master_List;
@@ -50,6 +44,7 @@ package body graph is
         Master_List.Append(Node_To_Add);        -- Append new node item
     end Add_To_Master_List;
 
+    -- Link two nodes together
     procedure Link_Nodes (Node_One : Unbounded_String; Node_Two : Unbounded_String) is
         Node_One_Access : Node_Pointer := Get_From_Master_List(Node_One);
         Node_Two_Access : Node_Pointer := Get_From_Master_List(Node_Two);
@@ -61,15 +56,37 @@ package body graph is
         -- Print_Links_Of_Node(Node_One_Access);
     end Link_Nodes;
 
+
+    procedure Delete_Link (Node_One : Unbounded_String; Node_Two : Unbounded_String) is
+        Node_One_Access : Node_Pointer := Get_From_Master_List(Node_One);
+        Node_Two_Access : Node_Pointer := Get_From_Master_List(Node_Two);
+        Node_Item : Node_Pointer;       -- Points to nodes we iterate through
+        -- Need a cursor to use delete as 'for C in...' syntax doesn't work and I tried casting it
+        Cursos_Pos : Cursor := First(Node_One_Access.Links); 
+    begin
+        -- Find where node two is, and delete its link
+        while Cursos_Pos /= No_Element loop
+            Node_item := Element(Cursos_Pos);
+            if Node_Item.ID = Node_Two then
+                Delete(Node_One_Access.Links, Cursos_Pos);
+                exit;
+            end if;
+            Next(Cursos_Pos);
+        end loop;
+        -- Debug Stuff
+        -- Put_Line("Deleting Link: " & To_String(Node_One) &" " &To_String(Node_Two));
+        -- Print_Links_Of_Node(Node_One_Access);
+    end Delete_Link;
+
+
     procedure Print_Links_Of_Node (Node : Node_Pointer) is
-        Cursor_Pos : Cursor := First(Node.Links);
         Node_Item : Node_Pointer := Null;
     begin
         Put_Line ("All nodes linked to " & To_String(Node.ID));
-        while Cursor_Pos /= No_Element loop
-            Node_Item := Element(Cursor_Pos);
+
+        for C in Node.Links.Iterate loop
+            Node_Item := Element(C);
             Put_Line(To_String(Node_Item.ID) & " ");
-            Next(Cursor_Pos);
         end loop;
     end Print_Links_Of_Node;
 
