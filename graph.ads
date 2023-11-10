@@ -8,10 +8,10 @@ Package Graph is
 
 
     type Node;      -- Thing storing info
-    type Node_Access is access Node;    -- Pointer to node
+    type Node_Pointer is access Node;    -- Pointer to node
 
     -- package definine a doubly linked list of nodes called Node_Lists
-    package Node_Lists is new Ada.Containers.Doubly_Linked_Lists (Element_Type => Node_Access);
+    package Node_Lists is new Ada.Containers.Doubly_Linked_Lists (Element_Type => Node_Pointer);
     use Node_Lists;
 
     -- Node storing id, visit tag for dfs, and its links
@@ -26,8 +26,12 @@ Package Graph is
 
     function In_Master_List (Node_Item_Name : Unbounded_String) return Boolean;
 
+    function Get_From_Master_List (Node_Item_Name : Unbounded_String) return Node_Pointer;
+
     procedure Add_To_Master_List (Node_Name : Unbounded_String);
 
-    -- Add more funcs as need be
+    procedure Link_Nodes (Node_One : Unbounded_String; Node_Two : Unbounded_String);
+
+    procedure Print_Links_Of_Node (Node : Node_Pointer);
 
 End Graph;

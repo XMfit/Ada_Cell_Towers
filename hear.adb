@@ -79,7 +79,6 @@ procedure hear is
    procedure Execute_Command(Tower_One : Unbounded_String; Tower_Two : Unbounded_String; Command : Character) is 
 
    begin
-        
         if command = '.' then
             Put_Line("Link Command");
 
@@ -93,6 +92,7 @@ procedure hear is
             end if;
 
             -- Code to link the two
+            Graph.Link_Nodes (Tower_One, Tower_Two);
 
         end if;
 
