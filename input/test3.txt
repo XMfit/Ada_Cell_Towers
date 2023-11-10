@@ -1,0 +1,12 @@
+westMELBOURNE WESTmelbourne .
+westMELBOURNE WESTmelbourne ?
+tower_b         tower_c.
+tower_c         tower_d    .
+tower_b tower_d ?
+tower_c tower_d #
+tower_b tower_d ?
+tower_c tower_d ?
+tower_d tower_d ?
+tower_d tower_f?
+tower_d tower_f   .
+tower_d tower_f ?
