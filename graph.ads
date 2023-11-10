@@ -1,49 +1,33 @@
--- graph.ads ada specification file (for string data type)
-
--- Import the Ada.Containers.Double_Linked_Lists package to work with double linked lists.
+with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Characters.Handling; use Ada.Characters.Handling;
 with Ada.Containers.Doubly_Linked_Lists;
--- Import the Ada.Strings.Unbounded package for strings
 with Ada.Strings.Unbounded;
+Use Ada.Strings.Unbounded;
 
--- Declare the package "Graph," which contains the graph data structure.
-package Graph is
-   -- Declare the Node_Type and Node_Access types for nodes in the graph.
-   type Node_Type is private;
-   type Node_Access is access Node_Type;
+Package Graph is
 
-   -- Declare the main data structure, the graph, as a tagged record.
-   type Graph is tagged record
-      Nodes : Ada.Containers.Doubly_Linked_Lists;  -- A list of nodes in the graph.
-   end record;
 
-   -- Initialize the graph.
-   procedure Initialize(G : in out Doubly_Linked_Lists);
+    type Node;      -- Thing storing info
+    type Node_Access is access Node;    -- Pointer to node
 
-   -- Check if a node with the given data exists in the graph.
-   function Node_Exists(G : in out Doubly_Linked_Lists; Data : in Node_Type) return Node_Access;
+    -- package definine a doubly linked list of nodes called Node_Lists
+    package Node_Lists is new Ada.Containers.Doubly_Linked_Lists (Element_Type => Node_Access);
+    use Node_Lists;
 
-   -- Add a new node to the graph.
-   procedure Add_Node(G : in out Doubly_Linked_Lists; Data : in Node_Type);
+    -- Node storing id, visit tag for dfs, and its links
+    type Node is record
+        ID : Unbounded_String;
+        Visited : Boolean := false;
+        Links : List;
+    end record;
 
-   -- Add an edge between two nodes if they both exist.
-   procedure Add_Edge(G : in out Doubly_Linked_Lists; From : in Node_Type; To : in Node_Type);
+    -- List of every Node in the system to check if a node has been apart of the graph or not
+    Master_List : List;
 
-   -- Delete an edge between two nodes.
-   procedure Delete_Edge(G : in out Doubly_Linked_Lists; From : in Node_Type; To : in Node_Type);
+    function In_Master_List (Node_Item_Name : Unbounded_String) return Boolean;
 
-   -- Check if a path exists between two nodes in the graph.
-   function Path_Exists(G : in Doubly_Linked_Lists; From : in Node_Type; To : in Node_Type) return Boolean;
+    procedure Add_To_Master_List (Node_Name : Unbounded_String);
 
-   -- Print the contents of the graph.
-   procedure Print_Graph(G : in Doubly_Linked_Lists);
+    -- Add more funcs as need be
 
-private
-   -- Import the Ada.Containers.Double_Linked_Lists package with a renaming to "DLL."
-   package DLL is new Ada.Containers.Doubly_Linked_Lists;
-
-   -- Declare the internal representation of a node in the graph as a tagged record.
-   type Node_Type is tagged record
-      Data : Ada.Strings.Unbounded.Unbounded_String;  -- Data associated with the node.
-      Edges : DLL.List;  -- List of edges connecting to other nodes.
-   end record;
-end Graph;
+End Graph;
