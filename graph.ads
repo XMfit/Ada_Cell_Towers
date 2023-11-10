@@ -1,5 +1,5 @@
 --   Author: Thomas Johnson, thomasjohnso2020@my.fit.edu
---   Author: Lamine Djibo,
+--   Author: Lamine Djibo, ldjibo2016@my.fit.edu
 --   Course: CSE 4250, Fall 2023
 --   Project: Project #3, can you HEAR me now?
 --   Implementation: GNATMAKE 12.3.0
