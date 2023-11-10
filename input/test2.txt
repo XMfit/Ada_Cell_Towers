@@ -1,0 +1,5 @@
+tower_a tower_b.
+tower_a tower_c.
+tower_b tower_d     .
+tower_d tower_c   .
+tower_a tower_d ?

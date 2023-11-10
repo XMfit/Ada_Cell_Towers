@@ -21,6 +21,7 @@ procedure hear is
     Tower_Two_End : Integer;
     Command : Character;
 
+    -- Tower names
     Tower_One_Name : Unbounded_String;
     Tower_Two_Name : Unbounded_String;
 
@@ -93,7 +94,21 @@ procedure hear is
             
         elsif command = '#' then
             Graph.Delete_Link(Tower_One, Tower_Two);
+
+        elsif command = '?' then
+            -- If either tower isn't in master list than the connection doesn't exist.
+            if not (Graph.In_Master_List(Tower_One) and Graph.In_Master_List(Tower_Two)) then
+                Put_Line("- " & To_String(Tower_One) & " => " & To_String(Tower_Two));
+            else
+                if Graph.Query_Link(Tower_One, Tower_Two) then
+                    Put_Line("+ " & To_String(Tower_One) & " => " & To_String(Tower_Two));
+                else
+                    Put_Line("- " & To_String(Tower_One) & " => " & To_String(Tower_Two));
+                end if;
+            end if;
+            
         end if;
+        
 
    end Execute_Command;
 
@@ -118,9 +133,11 @@ begin
         --Put_Line(Index'Image(Tower_One_Start) & Index'Image(Tower_One_End));
         --Put_Line(Index'Image(Tower_Two_Start) & Index'Image(Tower_Two_End));
 
+        -- Stores names
         Tower_One_name := To_Unbounded_String(Get_Name(Input, Tower_One_Start, Tower_One_End));
         Tower_Two_Name := To_Unbounded_String(Get_Name(Input, Tower_Two_Start, Tower_Two_End));
 
+        -- Execute Command
         Execute_Command(Tower_One_Name, Tower_Two_Name, Command);
     end loop;
 

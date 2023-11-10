@@ -78,6 +78,61 @@ package body graph is
         -- Print_Links_Of_Node(Node_One_Access);
     end Delete_Link;
 
+    function Query_Link (Node_One : Unbounded_String; Node_Two : Unbounded_String) return Boolean is
+        Node_One_Access : Node_Pointer := Get_From_Master_List(Node_One);   -- Node one pointer
+        Node_Two_Access : Node_Pointer := Get_From_Master_List(Node_Two);   -- Node two pointer
+
+        DFS_Val : Boolean;          -- Return bool from dfs result
+
+        Visited : List;         -- List of visited nodes
+
+    begin
+
+
+        -- Call dfs with current pos of our init node, init node, target node, and visited nodes
+        DFS_Val := DFS(Node_One_Access, Node_Two_Access, Visited);
+        return DFS_Val;
+    end Query_Link;
+
+
+
+    function DFS (Node : Node_Pointer; 
+                 Target : Node_Pointer; Visited : in out List) return Boolean is
+
+        In_Visit : Boolean := False;
+        Dummy_Node : Node_Pointer;
+
+    begin
+        -- If current node equals target node return true
+        if (Node.ID = Target.ID) then
+            -- Put_Line ("Found: " & To_String(Target.ID));
+            return true;
+        end if;
+
+        -- Check if our current node is in visited
+        for C in Visited.Iterate loop
+            Dummy_Node := Element(C);
+            if Dummy_Node.ID = Node.ID then
+                In_Visit := true;
+            end if;
+        end loop;
+
+        -- Add current Node to visited, if it isnt
+        if not In_Visit then
+            Visited.Append(Node);
+            -- Put_Line("Checking Neighbors of " & To_String(Node.ID));
+            -- Check neighbors of our current node
+
+            for C in Node.Links.Iterate loop
+                if DFS(Element(C), Target, Visited) then
+                    return true;
+                end if;
+            end loop;
+
+        end if;
+        return false;
+    end DFS;
+
 
     procedure Print_Links_Of_Node (Node : Node_Pointer) is
         Node_Item : Node_Pointer := Null;

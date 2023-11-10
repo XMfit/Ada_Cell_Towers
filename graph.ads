@@ -34,6 +34,11 @@ Package Graph is
 
     procedure Delete_Link (Node_One : Unbounded_String; Node_Two : Unbounded_String);
 
+    function Query_Link (Node_One : Unbounded_String; Node_Two : Unbounded_String) return Boolean;
+
+    function DFS (Node : Node_Pointer; 
+                  Target : Node_Pointer; Visited : in out List) return Boolean;
+
     procedure Print_Links_Of_Node (Node : Node_Pointer);
 
 End Graph;
