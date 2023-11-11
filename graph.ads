@@ -4,8 +4,7 @@
 --   Project: Project #3, can you HEAR me now?
 --   Implementation: GNATMAKE 12.3.0
 
-with Ada.Text_IO; use Ada.Text_IO;
-with Ada.Characters.Handling; use Ada.Characters.Handling;
+--   with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Containers.Doubly_Linked_Lists;
 with Ada.Strings.Unbounded;
 use Ada.Strings.Unbounded;

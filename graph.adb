@@ -4,11 +4,8 @@
 --   Project: Project #3, can you HEAR me now?
 --   Implementation: GNATMAKE 12.3.0
 
-with Ada.Text_IO; use Ada.Text_IO;
-with Ada.Characters.Handling; use Ada.Characters.Handling;
-with Ada.Containers.Doubly_Linked_Lists;
-with Ada.Strings.Unbounded;
-use Ada.Strings.Unbounded;
+--   with Ada.Text_IO; use Ada.Text_IO;
+
 
 
 package body Graph is
@@ -46,7 +43,7 @@ package body Graph is
 
    --   Adds node to master list
    procedure Add_To_Master_List (Node_Name : Unbounded_String) is
-      Node_To_Add : Node_Pointer := new Node;  --   Pointer to new node item
+      Node_To_Add : constant Node_Pointer := new Node;
    begin
       Node_To_Add.ID := Node_Name;
       Master_List.Append (Node_To_Add);  --   Append new node item
@@ -55,16 +52,20 @@ package body Graph is
    --   Link two nodes together
    procedure Link_Nodes (Node_One : Unbounded_String;
                          Node_Two : Unbounded_String) is
-      Node_One_Access : Node_Pointer := Get_From_Master_List (Node_One);
-      Node_Two_Access : Node_Pointer := Get_From_Master_List (Node_Two);
+      Node_One_Access : constant Node_Pointer :=
+                        Get_From_Master_List (Node_One);
+      Node_Two_Access : constant Node_Pointer :=
+                        Get_From_Master_List (Node_Two);
    begin
       Node_One_Access.Links.Append (Node_Two_Access);
    end Link_Nodes;
 
    function Direct_Link (Node_One : Unbounded_String;
                          Node_Two : Unbounded_String) return Boolean is
-      Node_One_Access : Node_Pointer := Get_From_Master_List (Node_One);
-      Node_Two_Access : Node_Pointer := Get_From_Master_List (Node_Two);
+      Node_One_Access : constant Node_Pointer :=
+                        Get_From_Master_List (Node_One);
+      Node_Two_Access : constant Node_Pointer :=
+                        Get_From_Master_List (Node_Two);
       Node_Item : Node_Pointer := null;
    begin
       for C in Node_One_Access.Links.Iterate loop
@@ -78,15 +79,17 @@ package body Graph is
 
    procedure Delete_Link (Node_One : Unbounded_String;
                           Node_Two : Unbounded_String) is
-      Node_One_Access : Node_Pointer := Get_From_Master_List (Node_One);
-      Node_Two_Access : Node_Pointer := Get_From_Master_List (Node_Two);
+      Node_One_Access : constant Node_Pointer :=
+                        Get_From_Master_List (Node_One);
+      Node_Two_Access : constant Node_Pointer :=
+                        Get_From_Master_List (Node_Two);
       Node_Item : Node_Pointer;
       Cursor_Pos : Cursor := First (Node_One_Access.Links);
    begin
       --   Find where node two is, and delete its link
       while Cursor_Pos /= No_Element loop
          Node_Item := Element (Cursor_Pos);
-         if Node_Item.ID = Node_Two then
+         if Node_Item.ID = Node_Two_Access.ID then
             Delete (Node_One_Access.Links, Cursor_Pos);
             exit;
          end if;
@@ -96,8 +99,10 @@ package body Graph is
 
    function Query_Link (Node_One : Unbounded_String;
                         Node_Two : Unbounded_String) return Boolean is
-      Node_One_Access : Node_Pointer := Get_From_Master_List (Node_One);
-      Node_Two_Access : Node_Pointer := Get_From_Master_List (Node_Two);
+      Node_One_Access : constant Node_Pointer :=
+                        Get_From_Master_List (Node_One);
+      Node_Two_Access : constant Node_Pointer :=
+                                 Get_From_Master_List (Node_Two);
 
       DFS_Val : Boolean;     --   Return bool from dfs result
 
@@ -151,7 +156,7 @@ package body Graph is
    begin
       for C in Node.Links.Iterate loop
          Node_Item := Element (C);
-         Put_Line (To_String (Node_Item.ID) & " ");
+         --   Put_Line (To_String (Node_Item.ID) & " ");
       end loop;
    end Print_Links_Of_Node;
 
